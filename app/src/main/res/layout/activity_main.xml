@@ -23,44 +23,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="kldfjkljgldfgj" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="20dp"
             android:text="kldfjk" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="df" />
+
     </com.example.learning_android_custom_viewgroup_kulakov.CustomLinearLayout>
-
-<!--    <com.example.learning_android_custom_viewgroup_kulakov.WrapLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
-
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="kldfjkljgldfgj" />-->
-
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="MMMM" />-->
-
-<!--        <Button-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginLeft="10dp"-->
-<!--            android:text="jggf" />-->
-
-<!--        <Button-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="jgk" />-->
-
-<!--        <Button-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="jf" />-->
-
-<!--    </com.example.learning_android_custom_viewgroup_kulakov.WrapLayout>-->
 
 </androidx.appcompat.widget.LinearLayoutCompat>

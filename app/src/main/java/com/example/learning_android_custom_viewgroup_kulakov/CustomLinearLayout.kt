@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
 import androidx.core.view.children
 import androidx.core.view.isVisible
@@ -41,19 +42,16 @@ class CustomLinearLayout @JvmOverloads constructor(
 
         for (child in children) {
             if (!child.isVisible) continue
-            child.measure(
-                MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.UNSPECIFIED),
-                MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.UNSPECIFIED),
-            )
-
+            measureChild(child, widthMeasureSpec, heightMeasureSpec)
+            val lp = child.layoutParams as MarginLayoutParams
             if (orientation == LinearLayout.HORIZONTAL) {
-                desiredWidth += child.measuredWidth
+                desiredWidth += child.measuredWidth + lp.leftMargin + lp.rightMargin
                 if (child.measuredHeight > desiredHeight)
-                    desiredHeight = child.measuredHeight
+                    desiredHeight = child.measuredHeight + lp.topMargin + lp.bottomMargin
             } else {
-                desiredHeight += child.measuredHeight
+                desiredHeight += child.measuredHeight + lp.topMargin + lp.bottomMargin
                 if (child.measuredWidth > desiredWidth)
-                    desiredWidth = child.measuredWidth
+                    desiredWidth = child.measuredWidth + lp.leftMargin + lp.rightMargin
             }
         }
 
@@ -115,18 +113,31 @@ class CustomLinearLayout @JvmOverloads constructor(
 
         for (child in children) {
             if (!child.isVisible) continue
-            child.measure(
-                MeasureSpec.makeMeasureSpec(viewportWidth, MeasureSpec.UNSPECIFIED),
-                MeasureSpec.makeMeasureSpec(viewportHeight, MeasureSpec.UNSPECIFIED),
-            )
+            val lp = child.layoutParams as MarginLayoutParams
             if (orientation == LinearLayout.HORIZONTAL) {
                 child.layout(left, top, left + child.measuredWidth, top + child.measuredHeight)
                 left += child.measuredWidth
             } else {
-                child.layout(left, top, left + child.measuredWidth, top + child.measuredHeight)
-                top += child.measuredHeight
+                child.layout(left, top + lp.topMargin, left + child.measuredWidth, top + child.measuredHeight + lp.topMargin)
+                top += child.measuredHeight + lp.topMargin + lp.bottomMargin
             }
         }
+    }
+
+    override fun generateLayoutParams(attrs: AttributeSet?): LayoutParams {
+        return MarginLayoutParams(context, attrs)
+    }
+
+    override fun checkLayoutParams(p: LayoutParams?): Boolean {
+        return p is MarginLayoutParams
+    }
+
+    override fun generateLayoutParams(p: LayoutParams?): LayoutParams {
+        return MarginLayoutParams(p)
+    }
+
+    override fun generateDefaultLayoutParams(): LayoutParams {
+        return MarginLayoutParams(MATCH_PARENT, MATCH_PARENT)
     }
 
     companion object {
