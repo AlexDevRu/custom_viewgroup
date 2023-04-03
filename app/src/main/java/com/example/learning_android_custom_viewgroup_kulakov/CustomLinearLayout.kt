@@ -105,8 +105,6 @@ class CustomLinearLayout @JvmOverloads constructor(
         val childRight = width - paddingRight
         val childTop = paddingTop
         val childBottom = height - paddingBottom
-        val viewportWidth = childRight - childLeft
-        val viewportHeight = childBottom - childTop
 
         var left = childLeft
         var top = childTop
@@ -114,11 +112,10 @@ class CustomLinearLayout @JvmOverloads constructor(
         for (child in children) {
             if (!child.isVisible) continue
             val lp = child.layoutParams as MarginLayoutParams
+            child.layout(left + lp.leftMargin, top + lp.topMargin, left + child.measuredWidth + lp.leftMargin, top + child.measuredHeight + lp.topMargin)
             if (orientation == LinearLayout.HORIZONTAL) {
-                child.layout(left, top, left + child.measuredWidth, top + child.measuredHeight)
-                left += child.measuredWidth
+                left += child.measuredWidth + lp.leftMargin + lp.rightMargin
             } else {
-                child.layout(left, top + lp.topMargin, left + child.measuredWidth, top + child.measuredHeight + lp.topMargin)
                 top += child.measuredHeight + lp.topMargin + lp.bottomMargin
             }
         }
