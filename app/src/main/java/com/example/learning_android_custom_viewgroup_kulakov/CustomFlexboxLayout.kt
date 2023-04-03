@@ -129,22 +129,23 @@ class CustomFlexboxLayout @JvmOverloads constructor(
 
         for (child in children) {
             if (!child.isVisible) continue
-            if (maxHeight < child.measuredHeight) {
-                maxHeight = child.measuredHeight
-            }
             val lp = child.layoutParams as MarginLayoutParams
 
             if (orientation == LinearLayout.HORIZONTAL) {
                 val viewRight = left + child.measuredWidth + lp.leftMargin + lp.rightMargin
                 if (viewRight > childRight) {
                     top += maxHeight
-                    maxHeight = 0
                     child.layout(lp.leftMargin, top + lp.topMargin, child.measuredWidth + lp.leftMargin, top + child.measuredHeight + lp.topMargin)
                     left = child.measuredWidth + lp.leftMargin + lp.rightMargin
+                    maxHeight = child.measuredHeight
                 } else {
                     child.layout(left + lp.leftMargin, top + lp.topMargin, left + child.measuredWidth + lp.leftMargin, top + child.measuredHeight + lp.topMargin)
                     left += child.measuredWidth + lp.leftMargin + lp.rightMargin
                 }
+            }
+
+            if (maxHeight < child.measuredHeight) {
+                maxHeight = child.measuredHeight
             }
         }
     }
