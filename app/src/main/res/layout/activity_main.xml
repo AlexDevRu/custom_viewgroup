@@ -54,9 +54,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="6dp"
-        android:text="Custom FlexboxLayout" />
+        android:text="Custom FlexboxLayout (horizontal)" />
 
     <com.example.learning_android_custom_viewgroup_kulakov.CustomFlexboxLayout
         android:layout_width="wrap_content"
@@ -110,6 +110,58 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="65156588" />
+
+    </com.example.learning_android_custom_viewgroup_kulakov.CustomFlexboxLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="6dp"
+        android:text="Custom FlexboxLayout (vertical)" />
+
+    <com.example.learning_android_custom_viewgroup_kulakov.CustomFlexboxLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_layout">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123rthtkdjfhg" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="123" />
 
     </com.example.learning_android_custom_viewgroup_kulakov.CustomFlexboxLayout>
 

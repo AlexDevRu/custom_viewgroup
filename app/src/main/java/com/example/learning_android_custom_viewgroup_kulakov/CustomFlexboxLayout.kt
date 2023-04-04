@@ -46,11 +46,13 @@ class CustomFlexboxLayout @JvmOverloads constructor(
             if (!child.isVisible) continue
             measureChild(child, widthMeasureSpec, heightMeasureSpec)
             val lp = child.layoutParams as MarginLayoutParams
+
+            val widthWithMargins = child.measuredWidth + lp.leftMargin + lp.rightMargin
+            val heightWithMargins = child.measuredHeight + lp.topMargin + lp.bottomMargin
+
             if (orientation == LinearLayout.HORIZONTAL) {
                 when (widthMode) {
                     MeasureSpec.EXACTLY, MeasureSpec.AT_MOST -> {
-                        val widthWithMargins = child.measuredWidth + lp.leftMargin + lp.rightMargin
-                        val heightWithMargins = child.measuredHeight + lp.topMargin + lp.bottomMargin
                         Log.d(TAG, "onMeasure: ${(child as? MaterialButton)?.text}")
                         if (rowWidth + widthWithMargins > widthSize) {
                             desiredHeight += rowHeight
@@ -70,14 +72,36 @@ class CustomFlexboxLayout @JvmOverloads constructor(
                     }
                 }
             } else {
-                desiredHeight += child.measuredHeight
-                if (child.measuredWidth > desiredWidth)
-                    desiredWidth = child.measuredWidth
+                when (widthMode) {
+                    MeasureSpec.EXACTLY, MeasureSpec.AT_MOST -> {
+                        Log.d(TAG, "onMeasure: ${(child as? MaterialButton)?.text}")
+                        if (rowHeight + heightWithMargins > heightSize) {
+                            desiredWidth += rowWidth
+                            rowWidth = 0
+                            rowHeight = 0
+                        }
+                        rowHeight += heightWithMargins
+                        if (rowHeight > desiredHeight)
+                            desiredHeight = rowHeight
+                        if (widthWithMargins > rowWidth)
+                            rowWidth = widthWithMargins
+                    }
+                    else -> {
+                        desiredHeight += heightWithMargins
+                        if (widthWithMargins > desiredWidth)
+                            desiredWidth = widthWithMargins
+                    }
+                }
             }
         }
 
-        desiredHeight += paddingTop + paddingBottom + rowHeight
-        desiredWidth += paddingLeft + paddingRight
+        if (orientation == LinearLayout.HORIZONTAL) {
+            desiredHeight += paddingTop + paddingBottom + rowHeight
+            desiredWidth += paddingLeft + paddingRight
+        } else {
+            desiredHeight += paddingTop + paddingBottom
+            desiredWidth += paddingLeft + paddingRight + rowWidth
+        }
 
         //Measure Width
         val width = when (widthMode) {
@@ -89,7 +113,7 @@ class CustomFlexboxLayout @JvmOverloads constructor(
             MeasureSpec.AT_MOST -> {
                 //Can't be bigger than...
                 Log.d(TAG, "onMeasure: width AT_MOST $widthSize")
-                Math.min(desiredWidth, widthSize)
+                desiredWidth.coerceAtMost(widthSize)
             }
             else -> {
                 Log.d(TAG, "onMeasure: width UNSPECIFIED $widthSize")
@@ -108,7 +132,7 @@ class CustomFlexboxLayout @JvmOverloads constructor(
             MeasureSpec.AT_MOST -> {
                 //Can't be bigger than...
                 Log.d(TAG, "onMeasure: height AT_MOST $heightSize")
-                Math.min(desiredHeight, heightSize)
+                desiredHeight.coerceAtMost(heightSize)
             }
             else -> {
                 //Be whatever you want
@@ -125,10 +149,12 @@ class CustomFlexboxLayout @JvmOverloads constructor(
         val childLeft = paddingLeft
         val childRight = width - paddingRight
         val childTop = paddingTop
+        val childBottom = height - paddingBottom
 
         var left = childLeft
         var top = childTop
         var maxHeight = 0
+        var maxWidth = 0
 
         for (child in children) {
             if (!child.isVisible) continue
@@ -148,6 +174,21 @@ class CustomFlexboxLayout @JvmOverloads constructor(
 
                 if (maxHeight < (child.measuredHeight + lp.topMargin + lp.bottomMargin)) {
                     maxHeight = child.measuredHeight + lp.topMargin + lp.bottomMargin
+                }
+            } else {
+                val viewBottom = top + child.measuredHeight + lp.topMargin + lp.bottomMargin
+                if (viewBottom > childBottom) {
+                    left += maxWidth
+                    child.layout(left + lp.leftMargin, lp.topMargin, left + child.measuredWidth + lp.leftMargin, child.measuredHeight + lp.topMargin)
+                    top = child.measuredHeight + lp.topMargin + lp.bottomMargin
+                    maxWidth = child.measuredWidth + lp.leftMargin + lp.rightMargin
+                } else {
+                    child.layout(left + lp.leftMargin, top + lp.topMargin, left + child.measuredWidth + lp.leftMargin, top + child.measuredHeight + lp.topMargin)
+                    top += child.measuredHeight + lp.topMargin + lp.bottomMargin
+                }
+
+                if (maxWidth < (child.measuredWidth + lp.leftMargin + lp.rightMargin)) {
+                    maxWidth = child.measuredWidth + lp.leftMargin + lp.rightMargin
                 }
             }
         }
