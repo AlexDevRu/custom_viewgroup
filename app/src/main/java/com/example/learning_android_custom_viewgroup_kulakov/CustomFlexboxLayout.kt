@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.view.children
 import androidx.core.view.isVisible
+import com.google.android.material.button.MaterialButton
 
 class CustomFlexboxLayout @JvmOverloads constructor(
     context: Context,
@@ -48,21 +49,24 @@ class CustomFlexboxLayout @JvmOverloads constructor(
             if (orientation == LinearLayout.HORIZONTAL) {
                 when (widthMode) {
                     MeasureSpec.EXACTLY, MeasureSpec.AT_MOST -> {
-                        if (rowWidth + child.measuredWidth + lp.leftMargin + lp.rightMargin > widthSize) {
+                        val widthWithMargins = child.measuredWidth + lp.leftMargin + lp.rightMargin
+                        val heightWithMargins = child.measuredHeight + lp.topMargin + lp.bottomMargin
+                        Log.d(TAG, "onMeasure: ${(child as? MaterialButton)?.text}")
+                        if (rowWidth + widthWithMargins > widthSize) {
                             desiredHeight += rowHeight
-                            if (rowWidth > desiredWidth)
-                                desiredWidth = rowWidth
                             rowWidth = 0
                             rowHeight = 0
                         }
-                        rowWidth += child.measuredWidth + lp.leftMargin + lp.rightMargin
-                        if (child.measuredHeight + lp.topMargin + lp.bottomMargin > rowHeight)
-                            rowHeight = child.measuredHeight + lp.topMargin + lp.bottomMargin
+                        rowWidth += widthWithMargins
+                        if (rowWidth > desiredWidth)
+                            desiredWidth = rowWidth
+                        if (heightWithMargins > rowHeight)
+                            rowHeight = heightWithMargins
                     }
                     else -> {
-                        desiredWidth += child.measuredWidth
-                        if (child.measuredHeight > desiredHeight)
-                            desiredHeight = child.measuredHeight
+                        desiredWidth += child.measuredWidth + lp.leftMargin + lp.rightMargin
+                        if ((child.measuredHeight + lp.topMargin + lp.bottomMargin) > desiredHeight)
+                            desiredHeight = child.measuredHeight + lp.topMargin + lp.bottomMargin
                     }
                 }
             } else {
@@ -73,7 +77,7 @@ class CustomFlexboxLayout @JvmOverloads constructor(
         }
 
         desiredHeight += paddingTop + paddingBottom + rowHeight
-        desiredWidth += paddingLeft + paddingRight + rowWidth
+        desiredWidth += paddingLeft + paddingRight
 
         //Measure Width
         val width = when (widthMode) {
@@ -121,7 +125,6 @@ class CustomFlexboxLayout @JvmOverloads constructor(
         val childLeft = paddingLeft
         val childRight = width - paddingRight
         val childTop = paddingTop
-        val childBottom = height - paddingBottom
 
         var left = childLeft
         var top = childTop
@@ -137,15 +140,15 @@ class CustomFlexboxLayout @JvmOverloads constructor(
                     top += maxHeight
                     child.layout(lp.leftMargin, top + lp.topMargin, child.measuredWidth + lp.leftMargin, top + child.measuredHeight + lp.topMargin)
                     left = child.measuredWidth + lp.leftMargin + lp.rightMargin
-                    maxHeight = child.measuredHeight
+                    maxHeight = child.measuredHeight + lp.topMargin + lp.bottomMargin
                 } else {
                     child.layout(left + lp.leftMargin, top + lp.topMargin, left + child.measuredWidth + lp.leftMargin, top + child.measuredHeight + lp.topMargin)
                     left += child.measuredWidth + lp.leftMargin + lp.rightMargin
                 }
-            }
 
-            if (maxHeight < child.measuredHeight) {
-                maxHeight = child.measuredHeight
+                if (maxHeight < (child.measuredHeight + lp.topMargin + lp.bottomMargin)) {
+                    maxHeight = child.measuredHeight + lp.topMargin + lp.bottomMargin
+                }
             }
         }
     }

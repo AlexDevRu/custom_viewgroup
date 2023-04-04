@@ -71,52 +71,45 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="7349857" />
+            android:text="456" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="8549675" />
+            android:text="789" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="444444444" />
+            android:text="101" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="8934578945798457" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="457967987945867958467958476958499999999999" />
+            android:text="112" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="4579679879458679584679584769584" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="457967987945867958467958476958" />
+            android:layout_marginStart="24dp"
+            android:text="12586758678888888888888883" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="444444444" />
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="0dp"
+            android:text="125867586788888883" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="8549675" />
+            android:text="123" />
 
-        <TextView
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="457967987945867958467958476958899899" />
+            android:text="65156588" />
 
     </com.example.learning_android_custom_viewgroup_kulakov.CustomFlexboxLayout>
 
