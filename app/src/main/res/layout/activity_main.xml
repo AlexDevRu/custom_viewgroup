@@ -61,6 +61,7 @@
     <com.example.learning_android_custom_viewgroup_kulakov.CustomFlexboxLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="20dp"
         android:background="@drawable/bg_layout">
 
         <Button

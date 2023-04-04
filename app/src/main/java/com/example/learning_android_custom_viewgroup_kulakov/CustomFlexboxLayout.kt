@@ -164,8 +164,8 @@ class CustomFlexboxLayout @JvmOverloads constructor(
                 val viewRight = left + child.measuredWidth + lp.leftMargin + lp.rightMargin
                 if (viewRight > childRight) {
                     top += maxHeight
-                    child.layout(lp.leftMargin, top + lp.topMargin, child.measuredWidth + lp.leftMargin, top + child.measuredHeight + lp.topMargin)
-                    left = child.measuredWidth + lp.leftMargin + lp.rightMargin
+                    child.layout(childLeft + lp.leftMargin, top + lp.topMargin, childLeft + child.measuredWidth + lp.leftMargin, top + child.measuredHeight + lp.topMargin)
+                    left = childLeft + child.measuredWidth + lp.leftMargin + lp.rightMargin
                     maxHeight = child.measuredHeight + lp.topMargin + lp.bottomMargin
                 } else {
                     child.layout(left + lp.leftMargin, top + lp.topMargin, left + child.measuredWidth + lp.leftMargin, top + child.measuredHeight + lp.topMargin)
@@ -179,8 +179,8 @@ class CustomFlexboxLayout @JvmOverloads constructor(
                 val viewBottom = top + child.measuredHeight + lp.topMargin + lp.bottomMargin
                 if (viewBottom > childBottom) {
                     left += maxWidth
-                    child.layout(left + lp.leftMargin, lp.topMargin, left + child.measuredWidth + lp.leftMargin, child.measuredHeight + lp.topMargin)
-                    top = child.measuredHeight + lp.topMargin + lp.bottomMargin
+                    child.layout(left + lp.leftMargin, childTop + lp.topMargin, left + child.measuredWidth + lp.leftMargin, childTop + child.measuredHeight + lp.topMargin)
+                    top = childTop + child.measuredHeight + lp.topMargin + lp.bottomMargin
                     maxWidth = child.measuredWidth + lp.leftMargin + lp.rightMargin
                 } else {
                     child.layout(left + lp.leftMargin, top + lp.topMargin, left + child.measuredWidth + lp.leftMargin, top + child.measuredHeight + lp.topMargin)
